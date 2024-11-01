@@ -9,6 +9,7 @@
 
 # TO USE: Run the macro and specify folders for input and output, and select the image extension.
 
+# Limitations: If the plugin finds that any dataset is "not decaying" it will stop.
 
 # ---- Setup ----
 
@@ -27,6 +28,8 @@ inputdir = str(inDir) # convert the directory object into a string
 outputdir = str(outDir)
 fnames = [] # empty array for filenames
 for fname in os.listdir(inputdir):
+	if fname.startswith("."): # avoid dotfiles that have the extension and filename filter
+		continue
 	if fname.endswith(image_extension):
 		if containString not in fname:
 			continue
@@ -45,7 +48,7 @@ for fname in fnames:
 	IJ.log("Opening image file "+ fname)
 	# imp = IJ.openImage(fname) # open the image normally
 	imp = ImagePlus(fname) # for headless (faster and less glitchy)
-	IJ.log("Stack size:"+str(imp.getStackSize()))
+	IJ.log("Stack size: " + str(imp.getStackSize()))
 	
 	bc = BleachCorrection() # prepare bleach correction
 	
@@ -71,12 +74,12 @@ for fname in fnames:
 	#impcorrected.show()
 	IJ.log("Finished correcting "+fname)
 
-	outputName = string.join((os.path.basename(fname)[0:-4],"_corr_", image_extension), "")
+	outputName = string.join((os.path.basename(fname)[0:-4],"_corr", image_extension), "")
 	# save the output image
 	IJ.log("Saving to " + outputdir)
 	IJ.saveAs(impcorrected, "Tiff", os.path.join(outputdir, outputName));
 	#imp.close()
  
-
+IJ.log("Finished")
 
 
