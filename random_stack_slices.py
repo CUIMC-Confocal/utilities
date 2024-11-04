@@ -1,7 +1,8 @@
 #@ File(label = "Input folder:", style = "directory") inDir
 #@ File(label = "Output folder:", style = "directory") outDir
 #@ String(label="Image File Extension", required=false, value=".tif") image_extension
-#@ int(label = "# of timepoints:",style = "spinner") numTimepoints
+#@ String  (label = "File name contains", value = "") containString
+#@ int(label = "# of samples per stack:",style = "spinner") numSamples
 
 # random_stack_slices.py
 # Theresa Swayne, 2024
@@ -22,6 +23,7 @@ from ij import IJ, ImagePlus, ImageStack
 from ij.process import ImageProcessor, FloatProcessor, StackProcessor
 import string
 
+
 # Find image files
 inputdir = str(inDir) # convert the directory object into a string
 outputdir = str(outDir)
@@ -34,38 +36,24 @@ fnames = sorted(fnames) # sort the file names
 if len(fnames) < 1: # no files
 	raise Exception("No image files found in %s" % inputdir)
 
-# Calculate number of datasets and check for errors
+print "Processing",len(fnames), "images and retrieving",numSamples,"from each one"
 
-numStacks = len(fnames)/numTimepoints
-if len(fnames) % numTimepoints != 0: # not an even multiple
-	raise Exception("Wrong number of image files found in %s" % inputdir)
+# Loop through files
 
-print "Processing",len(fnames), "images into",numStacks,"stacks with",numTimepoints,"timepoints"
+for fname in fnames:
 
-# Open and stack images
-
-for stackIndex in range(0,numStacks):
-
-	imageStartIndex = stackIndex * numTimepoints # 0 for the first one
-	imageEndIndex = imageStartIndex + numTimepoints # 0 through 25 if there are 25 timepoints
-	print "Creating stack", stackIndex, "from images",imageStartIndex,"to",imageEndIndex
 	
-	currentFile = os.path.basename(fnames[imageStartIndex])
-	print "First filename:",currentFile
+	currentFile = os.path.basename(fname)
+	print "Processing file:",currentFile
 	
-	imp = IJ.openImage(os.path.join(inputdir, fnames[imageStartIndex])) # open first image
+	imp = IJ.openImage(os.path.join(inputdir, fname)) # open  image
 	ip = imp.getProcessor()
-	new_stack = ImageStack(imp.width, imp.height) # new stack with size based on the image
-	new_stack.addSlice(currentFile, ip) # add the 1st image to the stack
 	
-	for fnameIndex in range(imageStartIndex + 1, imageEndIndex): # subset of the original array
-		currentFile = os.path.basename(fnames[fnameIndex])
-		print "Adding image",currentFile
-		imp = IJ.openImage(os.path.join(inputdir, currentFile)) # open next image
-		ip = imp.getProcessor()
-		new_stack.addSlice(currentFile, ip) # slice label is orig file name
-		# --- end stack creation loop
-	
+	# get slices, frames, etc
+	# calculate the gap between samples based on the number of samples requested (e.g. if n = 3, then the gap is  
+	# calculate the available range over which to pick the first slice
+	# randomly select the 1st slice
+	# loop 
 	basename = currentFile[0:-8] # assumes 3-digit timepoint plus .tif
 	fileName = string.join((basename, image_extension), "")
 	print "Saving stack",stackIndex,"with name", fileName
