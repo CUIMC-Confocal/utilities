@@ -36,6 +36,6 @@ mergedDataFlat <- unnest(mergedDataWithNames, cols = c(file_contents))
 
 # Write an output file of all the merged data ----------
 
-outputFile = paste(basename(inputFolder), "merged", finalText) # spaces will be inserted
+outputFile = paste(basename(inputFolder), " merged", finalText, sep = "")
 write_csv(mergedDataFlat,file.path(outputFolder, outputFile))
 
