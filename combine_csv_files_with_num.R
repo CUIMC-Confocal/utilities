@@ -2,6 +2,7 @@
 # merges a batch of csv files, putting the filename in a new column
 # Requirement: All files must be within a single folder and the name must contain the pattern noted in line 20
 # adapted from http://serialmentor.com/blog/2016/6/13/reading-and-combining-many-tidy-data-files-in-R
+# this version also adds a column for the row number (which will represent the timepoint)
 
 # Setup -------
 require(tidyverse)
