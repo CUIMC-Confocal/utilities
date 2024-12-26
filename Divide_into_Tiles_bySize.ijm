@@ -16,7 +16,6 @@ print(path);
 setBatchMode(true); // greatly increases speed and prevents lost tiles
 
 // path = getDirectory("image");
-// ? TODO: Set measurements, measure, save table
 
 makeGrid(boxSize);
 
