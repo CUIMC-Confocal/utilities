@@ -4,7 +4,18 @@
 // @String (label = "File suffix", value = ".nd2") fileSuffix
 
 // divide_into_tiles_low_memory.ijm
+// ImageJ/Fiji script to divide an image (or batch of images) into smaller pieces for easier processing
+// Does not require the entire image to be loaded into memory
 // Theresa Swayne, 2025
+// 
+
+// TO USE: Create a folder for the output files. 
+// 	Run the script in Fiji. 
+//	Enter the desired size of the tiles in pixels.
+//  Limitation -- cannot have >1 dots in the filename
+// 	Note: if the image size is not an even multiple of the tile size, 
+// 		the tol variable determines whether the remainder on the edge is saved as a tile, or ignored.
+// 		Set tol = 0 in the ceiling function below to convert everything.
 
 
 // ---- Setup ----
@@ -107,7 +118,7 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber, tileSize) 
  * Helper function, find ceiling value of float
  */
 function ceiling(value) {
-	tol = 0.2; // this is the fraction of box size below which an edge tile is not created  
+	tol = 0.1; // this is the fraction of box size below which an edge tile is not created  
 	if (value - round(value) > tol) {
 		return round(value)+1;
 	} else {
