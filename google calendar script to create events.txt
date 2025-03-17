@@ -1,0 +1,22 @@
+
+function createCustomTimedEvents() {
+var calendar = CalendarApp.getCalendarById("826bae53212bd047929f9f7656095a31b7d40d03cd1bee048e7e4fa0fbc63d06@group.calendar.google.com"); // Use the cytation Biospa calendar by ID
+var eventTitle = "TS Plate 1"; // Change this to your desired event name and plate number
+var startDate = new Date("2025-03-17T16:09:54"); // E.g.,Start time in YYYY-MM-DDTHH:MM:SS format
+var endDate = new Date("2025-03-18T17:00:00"); // E.g., End time at 2025-03-12 21:02:00
+
+var eventTime = new Date(startDate);
+
+while (eventTime <= endDate) {
+var eventStart = new Date(eventTime);
+var eventEnd = new Date(eventStart.getTime() + 90 * 60 * 1000); // Enter the scaning time: e.g.,33-minute duration is 33 * 60 * 1000
+
+if (eventEnd > endDate) break; // Stop if the event exceeds the final time
+
+calendar.createEvent(eventTitle, eventStart, eventEnd);
+
+eventTime.setTime(eventTime.getTime() + 720 * 60 * 1000); // Enter the interval, e.g.,120-minute interval is 120 * 60 * 1000;
+}
+
+Logger.log("Events created successfully!");
+}
