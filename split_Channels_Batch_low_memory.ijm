@@ -13,7 +13,7 @@
 // User is prompted for a folder containing multi-channel composite images
 // Output: individual channel images saved in a folder specifed by the user.
 // This macro processes all the images in a folder and any subfolders.
-// Protects memory by using virtual stack
+
 
 
 // ---- Setup ----
@@ -22,16 +22,17 @@ while (nImages>0) { // clean up open images
 	selectImage(nImages);
 	close();
 }
-// print("\\Clear"); // clear Log window
+print("\\Clear"); // clear Log window
 
 setBatchMode(true); // faster performance
 run("Bio-Formats Macro Extensions"); // support native microscope files
 
+// ---- Run ----
 n = 0;
 time = getTime();
 print("Starting");
 processFolder(dir1, dir2, suffix);
-print("Finished in", (getTime() - time), " msec");
+print("Finished in", (getTime() - time)/60, " sec");
 
 
 // ---- Functions ----
@@ -50,9 +51,8 @@ function processImage(dir1, dir2, name) {
 
 	path = dir1 + File.separator + name;
 	
-	//run("Bio-Formats", "open=&path use_virtual_stack");
+	run("Bio-Formats", "open=&path use_virtual_stack"); // virtual stack is twice as fast
 	
-	open(path);
 	print("Processing image", n++, "at path" ,path);
 	
 	id = getImageID();
