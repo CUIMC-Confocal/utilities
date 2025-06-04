@@ -4,8 +4,8 @@
 
 // Note: DO NOT DELETE OR MOVE THE FIRST 3 LINES -- they supply essential parameters
 
-// split_Channels_Param.ijm
-// TCS, 2017
+// split_Channels_Batch.ijm
+// Theresa Swayne, 2017
 // User is prompted for a folder containing multi-channel composite images
 // Output: individual channel images saved in a folder specifed by the user.
 // This macro processes all the images in a folder and any subfolders.
