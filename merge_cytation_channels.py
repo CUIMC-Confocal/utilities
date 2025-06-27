@@ -57,7 +57,7 @@ for fname in fnames:
 		#print "Adding C2 image", fname
 	elif C3name in fname:
 		C3.append(os.path.join(inputDir, fname))
-		#print "Adding C2 image", fname
+		#print "Adding C3 image", fname
 
 print (str(len(C1)), str(len(C2)), str(len(C3)))
 if ((len(C1) != len(C3)) or (len(C1) != len(C2)) or (len(C2) != len(C3))):
