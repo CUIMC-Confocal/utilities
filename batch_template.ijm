@@ -78,7 +78,7 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber, parameter)
 	print("Processing file",fileNumber," at path" ,path);	
 
 	// determine the name of the file without extension
-	dotIndex = indexOf(fileName, "."); // limitation -- cannot have >1 dots in the filename
+	dotIndex = lastIndexOf(fileName, ".");
 	basename = substring(fileName, 0, dotIndex); 
 	extension = substring(fileName, dotIndex);
 	
