@@ -33,7 +33,7 @@ mergedDataWithNames <- tibble(filename = files) %>% # tibble holding file names
 # sort by filename and add a column for the row number (timepoint) 
 mergedDataWithNames <- mergedDataWithNames %>% 
   arrange(filename) %>%
-  mutate(timepoint = row_number())
+  mutate(row_number = row_number())
 
 # unnest to make the list into a flat file again,
 # but it now has 1 extra column to hold the filename
