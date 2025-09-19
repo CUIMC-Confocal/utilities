@@ -6,7 +6,10 @@
 // batch_template.ijm
 // ImageJ/Fiji script to process a batch of images
 // Theresa Swayne, 2025
-// 
+//  -------- Suggested text for acknowledgement -----------
+//   "These studies used the Confocal and Specialized Microscopy Shared Resource 
+//   of the Herbert Irving Comprehensive Cancer Center at Columbia University, 
+//   funded in part through the NIH/NCI Cancer Center Support Grant P30CA013696."
 
 // TO USE: Place all input images in the input folder.
 // 	Create a folder for the output files. 
@@ -82,7 +85,7 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber, parameter)
 	basename = substring(fileName, 0, dotIndex); 
 	extension = substring(fileName, dotIndex);
 	
-	print("Processing file at path" ,path", with basename",basename);
+	print("Processing file at path" ,path,", with basename",basename);
 	
 	// open the file
 	run("Bio-Formats", "open=&path");
