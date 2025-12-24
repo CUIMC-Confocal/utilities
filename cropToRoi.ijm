@@ -1,7 +1,8 @@
 // crop_To_Roi.ijm
 // ImageJ/Fiji macro by Theresa Swayne, tcs6@cumc.columbia.edu, 2017
 // Input: A stack (or single plane) and a set of ROIs in the ROI manager 
-// Output: A stack (or single plane) corresponding to each ROI, plus a snapshot of the locations.
+// Output: A stack (or single plane) corresponding to each ROI, 
+//		plus a snapshot of the ROI locations.
 // 		Output images are numbered from 0 to the number of ROIs, 
 //		and are saved in the same folder as the source image.
 //		Non-rectangular ROIs are cropped to their bounding box.
@@ -26,7 +27,7 @@ run("Select None");
 
 numROIs = roiManager("count");
 // how much to pad?
-digits = Math.ceil((log(numROIs)/log(10)));
+digits = Math.ceil((log(numROIs+1)/log(10))); // the +1 is to handle 10 ROIs
 
 
 // ---------- DOCUMENT ROI LOCATIONS
@@ -71,7 +72,7 @@ for(i=0; i<numROIs;i++) // loop through ROIs
 	roiNumPad = IJ.pad(roiNum, digits);
 	cropName = basename+"_roi_"+roiNumPad + ".tif";
 	roiManager("Select", i);
-	roiManager("Rename", i);
+	roiManager("Rename", roiNum);
 	run("Duplicate...", "title=&cropName duplicate"); // creates the cropped stack
 	selectWindow(cropName);
 	saveAs("tiff", path + File.separator + cropName);
