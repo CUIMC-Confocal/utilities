@@ -70,7 +70,7 @@ for(i=0; i<numROIs;i++) // loop through ROIs
 	selectImage(id);
 	roiNum = i + 1; // so that image names start with 1 like the ROI labels
 	roiNumPad = IJ.pad(roiNum, digits);
-	cropName = basename+"_roi_"+roiNumPad + ".tif";
+	cropName = basename + "_roi_"+ roiNumPad + ".tif";
 	roiManager("Select", i);
 	roiManager("Rename", roiNum);
 	run("Duplicate...", "title=&cropName duplicate"); // creates the cropped stack
