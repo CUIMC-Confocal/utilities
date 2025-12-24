@@ -1,14 +1,18 @@
 // crop_To_Roi.ijm
 // ImageJ/Fiji macro by Theresa Swayne, tcs6@cumc.columbia.edu, 2017
 // Input: A stack (or single plane) and a set of ROIs in the ROI manager 
-// Output: A stack (or single plane) corresponding to each ROI. 
+// Output: A stack (or single plane) corresponding to each ROI, plus a snapshot of the locations.
 // 		Output images are numbered from 0 to the number of ROIs, 
 //		and are saved in the same folder as the source image.
 //		Non-rectangular ROIs are cropped to their bounding box.
+//		The ROIs are also saved with their numbers, using the same base name as the image.
 // Usage: Open an image. For each area you want to crop out, 
-// 		draw an ROI and press T to add to the ROI Manager.
+// 		draw an ROI and press T to add to the ROI Manager. (Or open a saved ROIset.)
 //		Then run the macro.
 
+// ---- Setup ----
+
+IJ.log("\\Clear");
 path = getDirectory("image");
 id = getImageID();
 title = getTitle();
@@ -66,12 +70,20 @@ for(i=0; i<numROIs;i++) // loop through ROIs
 	roiNum = i + 1; // so that image names start with 1 like the ROI labels
 	roiNumPad = IJ.pad(roiNum, digits);
 	cropName = basename+"_roi_"+roiNumPad + ".tif";
-	roiManager("Select", i); 
+	roiManager("Select", i);
+	roiManager("Rename", i);
 	run("Duplicate...", "title=&cropName duplicate"); // creates the cropped stack
 	selectWindow(cropName);
 	saveAs("tiff", path + File.separator + cropName);
 	print("Saved",cropName);
 	close();
 	}	
+	
+// Save ROI set
 run("Select None");
+roiManager("Deselect"); 
+roiSetName = basename + ".zip";
+roiManager("Save", path + File.separator +roiSetName);
+print("Saved ROI set",roiSetName);
+
 
