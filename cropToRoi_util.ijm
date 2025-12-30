@@ -87,4 +87,3 @@ roiSetName = basename + ".zip";
 roiManager("Save", path + File.separator +roiSetName);
 print("Saved ROI set",roiSetName);
 
-
