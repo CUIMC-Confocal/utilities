@@ -1,3 +1,6 @@
+//@File(label = "Output image folder:", style = "directory") imagePath
+//@File(label = "Output ROI folder:", style = "directory") roiPath
+//
 // crop_To_Roi.ijm
 // ImageJ/Fiji macro by Theresa Swayne, tcs6@cumc.columbia.edu, 2017
 // Input: A stack (or single plane) and a set of ROIs in the ROI manager 
@@ -14,7 +17,7 @@
 // ---- Setup ----
 
 IJ.log("\\Clear");
-path = getDirectory("image");
+//path = getDirectory("image");
 id = getImageID();
 title = getTitle();
 dotIndex = indexOf(title, ".");
@@ -26,9 +29,12 @@ roiManager("Deselect");
 run("Select None");
 
 numROIs = roiManager("count");
-// how much to pad?
+if (numROIs == 0) {
+	showMessage("There are no ROIs saved. Draw ROIs around cells and press T to add each one to the Manager. Then run the macro.");
+	exit;
+}
+// how much to pad ROI numbers?
 digits = Math.ceil((log(numROIs+1)/log(10))); // the +1 is to handle 10 ROIs
-
 
 // ---------- DOCUMENT ROI LOCATIONS
 
@@ -51,11 +57,11 @@ Stack.setPosition(channel, slice, frame); // restore the previous setup
 run("Flatten");
 flatID = getImageID();
 selectImage(flatID);
-saveAs("tiff", path+File.separator+basename+"_ROIlocs.tif");
+saveAs("tiff", imagePath + File.separator + basename + "_ROIlocs.tif");
 
 print("Saved snapshot");
 
-// close images
+// clean up snapshot images
 if (isOpen(flatID)) {
 	selectImage(flatID);
 	close();
@@ -65,17 +71,24 @@ if (isOpen(rgbID)) {
 	close();
 }
 	
-for(i=0; i<numROIs;i++) // loop through ROIs
+// Number and save ROIs
+
+// make sure nothing is selected to begin with
+selectImage(id);
+roiManager("Deselect");
+run("Select None");
+
+for(roiIndex=0; roiIndex<numROIs;roiIndex++) // loop through ROIs
 	{ 
 	selectImage(id);
-	roiNum = i + 1; // so that image names start with 1 like the ROI labels
+	roiNum = roiIndex + 1; // so that image names start with 1 like the ROI labels
 	roiNumPad = IJ.pad(roiNum, digits);
 	cropName = basename + "_roi_"+ roiNumPad + ".tif";
-	roiManager("Select", i);
+	roiManager("Select", roiIndex);
 	roiManager("Rename", roiNum);
 	run("Duplicate...", "title=&cropName duplicate"); // creates the cropped stack
 	selectWindow(cropName);
-	saveAs("tiff", path + File.separator + cropName);
+	saveAs("tiff", imagePath + File.separator + cropName);
 	print("Saved",cropName);
 	close();
 	}	
@@ -84,6 +97,12 @@ for(i=0; i<numROIs;i++) // loop through ROIs
 run("Select None");
 roiManager("Deselect"); 
 roiSetName = basename + ".zip";
-roiManager("Save", path + File.separator +roiSetName);
+roiManager("Save", roiPath + File.separator +roiSetName);
 print("Saved ROI set",roiSetName);
 
+
+// ---------- CLEANUP
+
+run("Select None");
+print("Saved",numROIs,"cropped areas. Finished.");
+//close();
