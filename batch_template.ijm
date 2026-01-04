@@ -85,7 +85,7 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber, parameter)
 	basename = substring(fileName, 0, dotIndex); 
 	extension = substring(fileName, dotIndex);
 	
-	print("Processing file at path" ,path,", with basename",basename);
+	print("File basename is",basename);
 	
 	// open the file
 	run("Bio-Formats", "open=&path");
