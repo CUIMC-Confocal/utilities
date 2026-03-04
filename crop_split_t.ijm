@@ -79,7 +79,7 @@ function processFile(inputFile, outputFolder, xStart, yStart, xSize, ySize) {
 		//tIndex = 3;
 		print("processing time",tIndex);
 		// crop and open a subset of time
-		run("Bio-Formats", "open=&path color_mode=Default crop specify_range z_begin=1 z_end=5 z_step=1 t_begin=&tIndex t_end=&tIndex t_step=1 x_coordinate_1=&xStart y_coordinate_1=&yStart width_1=&xSize height_1=&ySize");
+		run("Bio-Formats", "open=&path color_mode=Default series_1 crop specify_range z_begin=1 z_end=5 z_step=1 t_begin=&tIndex t_end=&tIndex t_step=1 x_coordinate_1=&xStart y_coordinate_1=&yStart width_1=&xSize height_1=&ySize");
 		
 		// save the region all Z
 		tIndexPad = IJ.pad(tIndex, digits);
