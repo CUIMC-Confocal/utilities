@@ -8,6 +8,7 @@
 // crop_split_t.ijm
 // ImageJ/Fiji script to open a piece of a file for easier processing
 // Does not require the entire image to be loaded into memory
+// --- Opens a cropped area in XY and a single timepoint, then projects and saves --- 
 // Theresa Swayne, 2026
 // 
 

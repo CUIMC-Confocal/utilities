@@ -7,6 +7,7 @@
 
 // save_single_tile_low_memory.ijm
 // ImageJ/Fiji script to open a piece of a file for easier processing
+// --- Opens a cropped XY region and saves it --
 // Does not require the entire image to be loaded into memory
 // Theresa Swayne, 2026
 // 
