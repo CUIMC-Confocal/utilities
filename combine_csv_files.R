@@ -7,7 +7,7 @@
 require(tidyverse)
 
 # text to filter for in the end of the file name
-finalText <- ".csv"
+finalText <- "3dResults.csv"
 
 # ---- Prompt for a data folder ----
 # no message will be displayed. Choose one of the files in the folder
@@ -36,6 +36,6 @@ mergedDataFlat <- unnest(mergedDataWithNames, cols = c(file_contents))
 
 # Write an output file of all the merged data ----------
 
-outputFile = paste(basename(inputFolder), " merged", finalText, sep = "")
+outputFile = paste(basename(inputFolder), "_merged_", finalText, sep = "")
 write_csv(mergedDataFlat,file.path(outputFolder, outputFile))
 
