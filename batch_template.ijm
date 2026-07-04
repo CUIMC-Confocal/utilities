@@ -29,6 +29,9 @@ while (nImages>0) { // clean up open images
 }
 print("\\Clear"); // clear Log window
 
+// keep track of time
+startTime = getTime();
+
 setBatchMode(true); // faster performance
 run("Bio-Formats Macro Extensions"); // support native microscope files
 
@@ -48,7 +51,10 @@ while (nImages > 0) { // clean up open images
 	close(); 
 }
 setBatchMode(false);
-print("Finished");
+
+time = getTime();
+elapsedTime = (time - startTime)/1000;
+print("Finished in ", elapsedTime , " sec");
 
 
 // ---- Functions ----
@@ -63,7 +69,7 @@ function processFolder(input, output, suffix, param) {
 	list = Array.sort(list);
 	for (i = 0; i < list.length; i++) {
 		if(File.isDirectory(input + File.separator + list[i])) {
-			processFolder(input + File.separator + list[i], output, suffix); // handles nested folders
+			processFolder(input + File.separator + list[i], output, suffix, param); // handles nested folders
 		}
 		if(endsWith(list[i], suffix)) {
 			filenum = filenum + 1;
@@ -97,7 +103,11 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber, parameter)
 	saveAs("tiff", outputFolder + File.separator + outputName);
 	close();
 	
-
+	// clean up
+	while (nImages > 0) { // clean up open images
+		selectImage(nImages);
+		close(); 
+	}
 } // end of processFile function
 
 
