@@ -7,7 +7,9 @@
 require(tidyverse)
 
 # text to filter for in the end of the file name
-finalText <- "3dResults.csv"
+# finalText <- "3dResults.csv" # for 3d Mgr Measurement (pos, size)
+#finalText <- "meas_results.csv" # alt for 3d mgr Measurement 
+finalText <- "quant_results.csv" # for 3d mgr Quantif (intensity) 
 
 # ---- Prompt for a data folder ----
 # no message will be displayed. Choose one of the files in the folder
